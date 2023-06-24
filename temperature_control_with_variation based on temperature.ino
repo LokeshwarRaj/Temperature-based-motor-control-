@@ -2,8 +2,8 @@
 #define DC_Motor 9
 int minTemp = -41;
 int maxTemp = 125;
-int minSpeed= 100;
-int maxSpeed= 3000;
+int minSpeed= 0;
+int maxSpeed= 5500;
 float duty;
 
 void setup() {
@@ -20,15 +20,17 @@ void loop()
   float temp = (volt - 0.5) * 100;
   Serial.print("Temperature = ");
   Serial.println(temp);
-  delay(1000);
+  delay(2000);
   duty = map(temp, minTemp, maxTemp, minSpeed, maxSpeed);
-  if(temp>=25){
-  	
-   analogWrite(DC_Motor , duty);
-    
-  }
-  else {
+  duty = map ( temp,-40,125,255 ,0);
   
-  	analogWrite(DC_Motor , duty);
-  }
+  // this set of code is for when u want the motor to inc speed 
+  // if the temp remains constant 
+ /* int temp_old =0;
+  int temp_n = temp;
+  duty = duty+2*(temp_n-temp_old);
+  temp_old= temp;*/
+  Serial.println(duty); 	
+  analogWrite(DC_Motor , duty);
+
 }
